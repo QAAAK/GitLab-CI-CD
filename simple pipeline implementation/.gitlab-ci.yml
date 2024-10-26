@@ -5,11 +5,11 @@ stages:
 unit test:
     stage: test
     script: 
-          - echo "test"
+          - echo "unit test"
 linter:
     stage: test
     script: 
-          - echo "test"
+          - echo "linter test"
 build:
     stage: build
     script: 
