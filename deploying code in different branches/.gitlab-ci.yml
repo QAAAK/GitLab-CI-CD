@@ -1,0 +1,30 @@
+stage:
+  -test
+  -prod
+  -deploy
+  -build
+
+test_job:
+  stages: test
+  script: 
+    - echo 'test'
+
+test_job_2:
+  stages: test
+  script: 
+    - echo 'test_2'
+
+build_job:
+  stages: build
+  script: 
+    - echo 'running ./build.sh'
+
+deploy_job:
+  stages: deploy
+  script:
+    - echo 'running ./deploy.sh'
+  only:
+    refs:
+      - tags
+      - master
+      - /^*release*$/
