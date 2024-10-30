@@ -23,6 +23,7 @@ deploy_job:
   stages: deploy
   script:
     - echo 'running ./deploy.sh'
+  when: manual
   only:
     refs:
       - tags
