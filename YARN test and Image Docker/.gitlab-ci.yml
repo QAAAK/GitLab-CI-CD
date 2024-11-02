@@ -1,0 +1,7 @@
+image: node:18.20.4
+
+test:
+  script:
+    - yarn install
+    - CI = True yarn test
+    
