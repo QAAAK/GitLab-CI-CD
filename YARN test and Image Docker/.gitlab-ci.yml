@@ -1,6 +1,10 @@
 image: node:18.20.4
 
+stages:
+  - test
+
 test:
+  stage: test
   script:
     - yarn install
     - CI = True yarn test
