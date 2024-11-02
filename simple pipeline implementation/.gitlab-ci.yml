@@ -1,16 +1,19 @@
 stages:
-  -test
-  -build
+  - build
+  - test
+
+build:
+  stage: build
+  script: 
+    - ./build.sh
 
 unit test:
   stage: test
   script: 
     - echo "unit test"
+    
 linter:
   stage: test
   script: 
     - echo "linter test"
-build:
-  stage: build
-  script: 
-    - ./build.sh
+
