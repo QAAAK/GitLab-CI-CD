@@ -1,8 +1,12 @@
 stage:
-  -test
-  -prod
-  -deploy
-  -build
+  - build
+  - test
+  - deploy
+
+build_job:
+  stages: build
+  script: 
+    - echo 'running ./build.sh'
 
 test_job:
   stages: test
@@ -13,11 +17,6 @@ test_job_2:
   stages: test
   script: 
     - echo 'test_2'
-
-build_job:
-  stages: build
-  script: 
-    - echo 'running ./build.sh'
 
 deploy_job:
   stages: deploy
