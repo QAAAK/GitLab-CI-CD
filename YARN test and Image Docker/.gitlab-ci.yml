@@ -8,6 +8,7 @@ install_dependencies:
   stage: build
   script:
     - yarn install
+    - yarn build
   artifacts:
     paths:
       - node_modules
