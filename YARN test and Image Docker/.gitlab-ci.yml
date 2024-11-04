@@ -23,4 +23,10 @@ test:
   stage: test
   script:
     - CI = True yarn test
+
+deploy:
+  stage: deploy
+  script: 
+    - cp -r build /var/www/app/$CI_COMMIT_SHA
+    - ln -fsnv /www/test/app/$CI_COMMIT_SHA /www/html
     
