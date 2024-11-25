@@ -1,0 +1,8 @@
+# Необходимо корректно называться тег для common_playbooks
+include:
+  - project: 'db/greenplum_reglaments/terminate_query/common_playbooks'
+    ref: &common_tq_ref '3.0.0'
+    file: '/gitlab/common_ci_template.yml'
+
+variables:
+  COMMON_TQ_BRANCH: *common_tq_ref
