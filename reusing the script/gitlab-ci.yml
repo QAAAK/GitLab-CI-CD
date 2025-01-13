@@ -1,0 +1,18 @@
+.apt-cache:
+  script:
+    - apt update
+  after_script:
+    - apt clean all
+
+install:
+  stage: install
+  script:
+    - !reference [.apt-cache, script]
+    - apt install nginx
+
+update:
+  stage: update
+  script:
+    - !reference [.apt-cache, script]
+    - apt upgrade
+    - !reference [.apt-cache, after_script]
