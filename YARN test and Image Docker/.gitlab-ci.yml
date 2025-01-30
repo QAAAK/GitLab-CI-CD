@@ -3,7 +3,7 @@ stages:
   - test
   - deploy
 
-image: node:18.20.4
+image: node:18.20.4 # node:version
 
 install_dependencies:
   stage: build
