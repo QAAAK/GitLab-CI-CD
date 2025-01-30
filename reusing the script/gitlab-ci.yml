@@ -8,7 +8,7 @@ install:
   stage: install
   script:
     - !reference [.apt-cache, script]
-    - apt install nginx
+    - apt install nginx # nginx:version
 
 update:
   stage: update
