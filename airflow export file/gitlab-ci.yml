@@ -1,0 +1,49 @@
+name: CI/CD to Airflow
+
+on:
+  push:
+    branches:
+      - master  # Укажите ваши ветки, по которым нужно триггерить действия
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        
+    - name: Run tests
+      run: |
+        pytest  # Запустите ваши тесты
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test  # Запускать только после успешного завершения тестов
+    if: github.event_name == 'push'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Upload file to Airflow
+      env:
+        AIRFLOW_URL: ${{ secrets.AIRFLOW_URL }}  # URL вашего Airflow
+        AIRFLOW_USERNAME: ${{ secrets.AIRFLOW_USERNAME }}  # Имя пользователя для авторизации
+        AIRFLOW_PASSWORD: ${{ secrets.AIRFLOW_PASSWORD }}  # Пароль для авторизации
+      run: |
+        curl -X POST -u "$AIRFLOW_USERNAME:$AIRFLOW_PASSWORD" \
+          -F "file=@path/to/your/file" \
+          "$AIRFLOW_URL/api/v1/dags/your_dag_id/dagRuns"
