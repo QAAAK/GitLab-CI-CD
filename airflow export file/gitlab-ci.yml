@@ -3,7 +3,7 @@ name: CI/CD to Airflow
 on:
   push:
     branches:
-      - master  # Укажите ваши ветки, по которым нужно триггерить действия
+      - master  # Укажите ваши ветки
   pull_request:
     branches:
       - main
