@@ -41,8 +41,8 @@ jobs:
     - name: Upload file to Airflow
       env:
         AIRFLOW_URL: ${{ secrets.AIRFLOW_URL }}  # URL вашего Airflow
-        AIRFLOW_USERNAME: ${{ secrets.AIRFLOW_USERNAME }}  # Имя пользователя для авторизации
-        AIRFLOW_PASSWORD: ${{ secrets.AIRFLOW_PASSWORD }}  # Пароль для авторизации
+        AIRFLOW_USERNAME: ${{ secrets.AIRFLOW_USERNAME }}  # Имя пользователя для авторизации в Airflow
+        AIRFLOW_PASSWORD: ${{ secrets.AIRFLOW_PASSWORD }}  # Пароль для авторизации в Airflow 
       run: |
         curl -X POST -u "$AIRFLOW_USERNAME:$AIRFLOW_PASSWORD" \
           -F "file=@path/to/your/file" \
