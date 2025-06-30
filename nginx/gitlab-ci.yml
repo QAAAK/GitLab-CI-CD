@@ -1,0 +1,39 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://localhost:2375
+
+build:
+  stage: build
+  script:
+    - docker build -t my-nginx-app .
+    - docker save my-nginx-app > image.tar
+  artifacts:
+    paths:
+      - image.tar
+
+deploy:
+  stage: deploy
+  script:
+    - 'which ssh-agent || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DEPLOY_SERVER >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - scp image.tar $DEPLOY_USER@$DEPLOY_SERVER:$DEPLOY_PATH
+    - ssh $DEPLOY_USER@$DEPLOY_SERVER "docker load < $DEPLOY_PATH/image.tar && docker-compose -f $DEPLOY_PATH/docker-compose.yml up -d"
+  environment:
+    name: production
+    url: http://$DEPLOY_SERVER
+  only:
+    - master
