@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+
+
+.inst_job:
+  image: alpine:3.22
+  before_script:
+    - python3 inst_log.py
+    - python3 inst_db.py
+
+
+build_job:
+  stage: build
+  extends: .inst_job
+  environment:
+    name: test
+    url: https://example.com
+  script: 
+    - python3 build.py
+
+  
+deploy_job:
+  stage: deploy
+  extends: .inst_job
+  environment:
+    name: prod
+    url: https://example.com
+  script: 
+    - python3 main.py    
